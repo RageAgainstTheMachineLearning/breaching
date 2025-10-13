@@ -1,0 +1,44 @@
+header: ${read_file:breaching/README.md}
+
+footer: |-
+
+  ==
+  
+  Powered by Hydra (https://hydra.cc)
+  Use --hydra-help to view Hydra specific help
+
+template: |-
+  ${hydra.help.header}
+
+  == Configuration groups ==
+  Compose your configuration from those groups:
+
+  $APP_CONFIG_GROUPS
+  
+  ${read_file:breaching/config/README.md}
+
+  == Attack group options ==
+
+  TODO
+  
+  == Case group options ==
+
+  TODO
+  
+  == Case/Data group options ==
+
+  TODO
+  
+  == Case/Implementation group options ==
+  
+  ${read_file:breaching/config/case/impl/README.md}
+  
+  == Case/Server group options ==
+
+  TODO
+  
+  == Case/User group options ==
+
+  TODO
+  
+  ${hydra.help.footer}
