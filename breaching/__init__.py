@@ -4,11 +4,13 @@ from breaching import analysis
 from breaching import attacks
 from breaching import cases
 from breaching import utils
+from breaching import config
 
 __all__ = ["analysis", "attacks", "cases", "servers", "utils"]
 
 
 import hydra
+from omegaconf import OmegaConf
 
 """Construct interfaces to cfg folders for use in packaged installations:"""
 
@@ -36,6 +38,14 @@ def get_case_config(case="1_single_image_small", overrides=[]):
         print(f"Investigating use case {cfg.name} with server type {cfg.server.name}.")
     return cfg
 
+def read_file(path: str) -> str:
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return f.read()
+    except FileNotFoundError:
+        return f"File not found: {path}"
+    
+OmegaConf.register_new_resolver("read_file", read_file)
 
 # Variant (other OS?):
 # with hydra.initialize_config_module(config_module="breaching.config"):
