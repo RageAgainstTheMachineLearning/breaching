@@ -6,6 +6,7 @@ defaults:
   - attack: invertinggradients
   - _self_
   - override hydra/job_logging: custom
+  - override hydra/help: help
 
 base_dir: outputs
 hydra:
