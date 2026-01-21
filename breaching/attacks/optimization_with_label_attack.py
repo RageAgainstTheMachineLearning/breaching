@@ -6,6 +6,7 @@ And it does also work in simpler settings as in the original paper.
 In some cases turning this on can stabilize an L-BFGS optimizer.
 """
 
+import math
 import torch
 import time
 
@@ -122,7 +123,7 @@ class OptimizationJointAttacker(OptimizationBasedAttacker):
                             torch.min(candidate_data, (1 - self.dm) / self.ds), -self.dm / self.ds
                         )
                     if objective_value < minimal_value_so_far:
-                        minimal_value_so_far = objective_value.detach()
+                        minimal_value_so_far = objective_value
                         best_candidate = candidate_data.detach().clone()
                         best_labels = candidate_labels.detach().clone()
 
@@ -133,17 +134,17 @@ class OptimizationJointAttacker(OptimizationBasedAttacker):
                         dim=-1
                     ).mean() / torch.log(torch.as_tensor(p.shape[-1], dtype=torch.float))
                     log.info(
-                        f"| It: {iteration + 1} | Rec. loss: {objective_value.item():2.4f} | "
+                        f"| It: {iteration + 1} | Rec. loss: {objective_value:2.4f} | "
                         f" Task loss: {task_loss.item():2.4f} | T: {timestamp - current_wallclock:4.2f}s | "
                         f" Label Entropy: {label_entropy:2.4f}."
                     )
                     current_wallclock = timestamp
 
-                if not torch.isfinite(objective_value):
+                if not math.isfinite(objective_value):
                     log.info(f"Recovery loss is non-finite in iteration {iteration}. Cancelling reconstruction!")
                     break
 
-                stats[f"Trial_{trial}_Val"].append(objective_value.item())
+                stats[f"Trial_{trial}_Val"].append(objective_value)
 
                 if dryrun:
                     break
@@ -200,7 +201,7 @@ class OptimizationJointAttacker(OptimizationBasedAttacker):
                         pass
 
             self.current_task_loss = total_task_loss  # Side-effect this because of L-BFGS closure limitations :<
-            return total_objective
+            return total_objective.item()
 
         return closure
 
