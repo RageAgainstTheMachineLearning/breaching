@@ -8,16 +8,18 @@ All caveats apply. Make sure not to leak any unexpected information.
 import torch
 import torchvision
 import breaching
+from omegaconf import DictConfig
 
 
-class data_cfg_default:
-    modality = "vision"
-    size = (1_281_167,)
-    classes = 1000
-    shape = (3, 224, 224)
-    normalize = True
-    mean = (0.485, 0.456, 0.406)
-    std = (0.229, 0.224, 0.225)
+data_cfg_default = DictConfig({
+    "modality": "vision",
+    "size": 1_281_167,
+    "classes": 1000,
+    "shape": [3, 224, 224],
+    "normalize": True,
+    "mean": [0.485, 0.456, 0.406],
+    "std": [0.229, 0.224, 0.225],
+})
 
 
 transforms = torchvision.transforms.Compose(
