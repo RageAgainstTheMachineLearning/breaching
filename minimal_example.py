@@ -13,6 +13,7 @@ from omegaconf import DictConfig
 
 data_cfg_default = DictConfig({
     "modality": "vision",
+    "task": "classification",
     "size": 1_281_167,
     "classes": 1000,
     "shape": [3, 224, 224],
