@@ -122,7 +122,7 @@ class OptimizationJointAttacker(OptimizationBasedAttacker):
                             torch.min(candidate_data, (1 - self.dm) / self.ds), -self.dm / self.ds
                         )
                     if objective_value < minimal_value_so_far:
-                        minimal_value_so_far = objective_value.detach()
+                        minimal_value_so_far = objective_value
                         best_candidate = candidate_data.detach().clone()
                         best_labels = candidate_labels.detach().clone()
 
@@ -200,7 +200,7 @@ class OptimizationJointAttacker(OptimizationBasedAttacker):
                         pass
 
             self.current_task_loss = total_task_loss  # Side-effect this because of L-BFGS closure limitations :<
-            return total_objective
+            return total_objective.detach()
 
         return closure
 
